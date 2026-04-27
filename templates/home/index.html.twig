@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Maud Artiste Muraliste{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        .hero {
+            height: 100vh;
+            background-image: url('/images/fond.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-top: -80px;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: white;
+            max-width: 900px;
+            padding: 3rem;
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 6rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: white;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 4rem;
+            text-transform: uppercase;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3.5rem;
+            background: transparent;
+            color: white;
+            text-decoration: none;
+            border: 2px solid rgba(255,255,255,0.6);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border-radius: 50px;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.1);
+            transition: left 0.4s ease;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        .cta-button:hover {
+            background: rgba(255,255,255,0.95);
+            color: #0a0a0a;
+            border-color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        /* Supprimer l'espace entre le hero et le footer sur la page d'accueil */
+        footer {
+            margin-top: 0 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="hero">
+    <div class="hero-content">
+        <h1>Maud</h1>
+        <p>Artiste Muraliste - Transformez vos espaces</p>
+        <a href="{{ path('app_realisations') }}" class="cta-button">Découvrir mes réalisations</a>
+    </div>
+</div>
+{% endblock %}

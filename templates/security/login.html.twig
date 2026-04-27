@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Administration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-box {
+            background: #ffffff;
+            width: 420px;
+            padding: 3.5rem;
+        }
+        
+        .login-logo {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .login-logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #0a0a0a;
+            letter-spacing: 0.15em;
+        }
+        
+        .login-logo p {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #999;
+            margin-top: 0.5rem;
+        }
+        
+        .alert-error {
+            background: #fef2f2;
+            color: #991b1b;
+            padding: 1rem;
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+            border-left: 3px solid #ef4444;
+        }
+        
+        .form-group {
+            margin-bottom: 2rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 0.8rem;
+            font-weight: 300;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.9rem 0;
+            border: none;
+            border-bottom: 1px solid #e0e0e0;
+            background: transparent;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: #0a0a0a;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-bottom-color: #c9a961;
+        }
+        
+        .login-button {
+            width: 100%;
+            background: #0a0a0a;
+            color: white;
+            padding: 1rem;
+            border: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background 0.3s ease;
+        }
+        
+        .login-button:hover {
+            background: #c9a961;
+        }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: #999;
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #0a0a0a;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <div class="login-logo">
+            <h1>Maud</h1>
+            <p>Administration</p>
+        </div>
+        
+        {% if error %}
+            <div class="alert-error">
+                Identifiants incorrects. Veuillez réessayer.
+            </div>
+        {% endif %}
+        
+        <form method="post">
+            <div class="form-group">
+                <label for="username">Identifiant</label>
+                <input type="text" id="username" name="_username" value="{{ last_username }}" autocomplete="username" autofocus>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="_password" autocomplete="current-password">
+            </div>
+            
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            
+            <button type="submit" class="login-button">Se connecter</button>
+        </form>
+        
+        <a href="{{ path('app_home') }}" class="back-link">← Retour au site</a>
+    </div>
+</body>
+</html>

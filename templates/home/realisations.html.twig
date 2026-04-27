@@ -1,0 +1,212 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réalisations - Maud Artiste Muraliste{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        .realisations-header {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 6rem;
+        }
+        
+        .realisations-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .category {
+            margin-bottom: 10rem;
+        }
+        
+        .category h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 4rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .category h2::before {
+            content: '';
+            width: 4px;
+            height: 35px;
+            background: linear-gradient(180deg, #c9a961, transparent);
+            border-radius: 2px;
+        }
+        
+        .category h2::after {
+            content: '';
+            width: 4px;
+            height: 35px;
+            background: linear-gradient(180deg, transparent, #c9a961);
+            border-radius: 2px;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+        
+        .gallery-item {
+            background: transparent;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .gallery-item h3 {
+            padding: 2rem 0 1.5rem 0;
+            background: transparent;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            letter-spacing: 0;
+            color: #0a0a0a;
+        }
+        
+        .gallery-images {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gallery-images a {
+            display: block;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .gallery-see-more {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #c9a961;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            padding-bottom: 0.3rem;
+        }
+
+        .gallery-see-more:hover {
+            border-bottom-color: #c9a961;
+            transform: translateX(5px);
+        }
+        
+        .gallery-images img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: grayscale(0%);
+            border-radius: 4px;
+        }
+        
+        .gallery-item:hover .gallery-images img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item p {
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+        
+        .no-galleries {
+            text-align: center;
+            padding: 8rem;
+            color: #ccc;
+            font-weight: 300;
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-images img {
+                height: 250px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="realisations-header">
+        <h1>Réalisations</h1>
+    </div>
+    
+    {% for categoryKey, categoryName in categories %}
+        <div class="category">
+            <h2>{{ categoryName }}</h2>
+            
+            {% if galleries[categoryKey] is not empty %}
+                <div class="gallery-grid">
+                    {% for gallery in galleries[categoryKey] %}
+                        <div class="gallery-item">
+                            <h3>{{ gallery.title }}</h3>
+                            
+                            {% if gallery.images is not empty %}
+                                <div class="gallery-images">
+                                    {% for image in gallery.images|slice(0, 4) %}
+                                        <a href="{{ path('app_gallery_detail', {id: gallery.id}) }}">
+                                            <img src="/uploads/gallery/{{ image.filename }}" 
+                                                 alt="{{ image.caption ?? gallery.title }}">
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                                {% if gallery.images|length > 4 %}
+                                    <a href="{{ path('app_gallery_detail', {id: gallery.id}) }}" class="gallery-see-more">
+                                        Voir les {{ gallery.images|length }} photos →
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('app_gallery_detail', {id: gallery.id}) }}" class="gallery-see-more">
+                                        Voir la galerie →
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                            
+                            {% if gallery.description %}
+                                <p>{{ gallery.description }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-galleries">
+                    Aucune galerie disponible pour le moment dans cette catégorie.
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Maud - Artiste Muraliste{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🎨</text></svg>">
+        {% block stylesheets %}
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+            <style>
+                
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+                
+                html {
+                    scroll-behavior: smooth;
+                    background: linear-gradient(135deg, #e8e8e8 0%, #d8d8d8 100%) !important;
+                    background-attachment: fixed;
+                }
+                
+                body {
+                    font-family: 'Inter', -apple-system, sans-serif;
+                    line-height: 1.8;
+                    color: #0a0a0a;
+                    background: linear-gradient(135deg, #e8e8e8 0%, #d8d8d8 100%) !important;
+                    background-attachment: fixed;
+                    font-size: 15px;
+                    font-weight: 400;
+                    min-height: 100vh;
+                }
+                
+                /* Header moderne et élégant */
+                nav {
+                    background: rgba(232, 232, 232, 0.95);
+                    padding: 1.5rem 3rem;
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    z-index: 1000;
+                    transition: all 0.3s ease;
+                }
+                
+                nav.scrolled {
+                    padding: 1rem 3rem;
+                    box-shadow: 0 2px 20px rgba(0,0,0,0.03);
+                }
+                
+                nav .nav-menu {
+                    list-style: none;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 3.5rem;
+                    flex-wrap: wrap;
+                }
+                
+                nav a {
+                    text-decoration: none;
+                    color: #2a2a2a;
+                    font-family: 'Space Grotesk', sans-serif;
+                    font-weight: 500;
+                    font-size: 0.85rem;
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    position: relative;
+                    padding: 0.5rem 0;
+                }
+                
+                nav a::before {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 0;
+                    height: 1px;
+                    background: linear-gradient(90deg, transparent, #c9a961, transparent);
+                    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+                
+                nav a:hover::before, nav a.active::before {
+                    width: 100%;
+                }
+                
+                nav a:hover, nav a.active {
+                    color: #c9a961;
+                }
+                
+                /* Espacement pour le header fixe */
+                body {
+                    padding-top: 80px;
+                }
+                
+                .container {
+                    max-width: 1600px;
+                    margin: 0 auto;
+                    padding: 5rem 3rem;
+                    background: transparent;
+                }
+                
+                h1 {Space Grotesk', sans-serif;
+                    font-size: 4.5rem;
+                    font-weight: 700;
+                    margin-bottom: 2rem;
+                    color: #0a0a0a;
+                    letter-spacing: -0.02em;
+                    line-height: 1.1;
+                }
+                
+                h2 {
+                    font-family: 'Space Grotesk', sans-serif;
+                    font-size: 2.5rem;
+                    font-weight: 600;
+                    margin-bottom: 2.5rem;
+                    color: #0a0a0a;
+                    letter-spacing: -0.01em;
+                    line-height: 1.2;
+                }
+                
+                h3 {
+                    font-family: 'Space Grotesk', sans-serif;
+                    font-size: 1.3rem;
+                    font-weight: 600;
+                    margin-bottom: 1rem;
+                    color: #0a0a0a;
+                    letter-spacing: 0;
+                }
+                
+                p {
+                    font-family: 'Inter', sans-serif;
+                    color: #4a4a4a;
+                    line-height: 1.9;
+                    font-weight: 4.9;
+                    font-weight: 300;
+                }
+                
+                footer {
+                    background: linear-gradient(to top, #d0d0d0, #e0e0e0);
+                    color: #5a5a5a;
+                    text-align: center;
+                    padding: 4rem 2rem;
+                    margin-top: 8rem;
+                    font-size: 0.8rem;
+                    letter-spacing: 0.1em;
+                    border-top: 1px solid rgba(0, 0, 0, 0.05);
+                }
+                
+                footer p {
+                    margin-bottom: 1rem;
+                }
+                
+                footer .footer-links {
+                    margin-top: 1rem;
+                    display: flex;
+                    justify-content: center;
+                    gap: 2rem;
+                    flex-wrap: wrap;
+                }
+                
+                footer .footer-links a {
+                    color: #5a5a5a;
+                    text-decoration: none;
+                    font-size: 0.75rem;
+                    letter-spacing: 0.1em;
+                    transition: color 0.3s ease;
+                }
+                
+                footer .footer-links a:hover {
+                    color: #c9a961;
+                }
+                
+                /* Animations */
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(30px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+                
+                .container > * {
+                    animation: fadeInUp 0.8s ease-out;
+                }
+                
+                /* Menu burger - caché par défaut sur desktop */
+                .burger-menu {
+                    display: none;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    width: 2rem;
+                    height: 2rem;
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    padding: 0;
+                    z-index: 1001;
+                    position: relative;
+                }
+                
+                .burger-menu span {
+                    width: 2rem;
+                    height: 2px;
+                    background: #2a2a2a;
+                    border-radius: 10px;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    position: relative;
+                    transform-origin: center;
+                }
+                
+                .burger-menu.active span:nth-child(1) {
+                    transform: rotate(45deg) translate(5px, 5px);
+                }
+                
+                .burger-menu.active span:nth-child(2) {
+                    opacity: 0;
+                    transform: translateX(20px);
+                }
+                
+                .burger-menu.active span:nth-child(3) {
+                    transform: rotate(-45deg) translate(5px, -5px);
+                }
+                
+                /* Media queries pour responsive */
+                @media (max-width: 768px) {
+                    nav {
+                        padding: 1rem 1.5rem;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+                    
+                    nav.scrolled {
+                        padding: 0.75rem 1.5rem;
+                    }
+                    
+                    .burger-menu {
+                        display: flex;
+                    }
+                    
+                    nav .nav-menu {
+                        position: fixed;
+                        left: -100%;
+                        top: 0;
+                        flex-direction: column;
+                        background: rgba(232, 232, 232, 0.98);
+                        backdrop-filter: blur(20px);
+                        -webkit-backdrop-filter: blur(20px);
+                        width: 100%;
+                        height: 100vh;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 2.5rem;
+                        transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                        border-right: 1px solid rgba(0, 0, 0, 0.08);
+                    }
+                    
+                    nav .nav-menu.active {
+                        left: 0;
+                    }
+                    
+                    nav a {
+                        font-size: 1.2rem;
+                        padding: 1rem 0;
+                    }
+                    
+                    .container {
+                        padding: 3rem 1.5rem;
+                    }
+                    
+                    body {
+                        padding-top: 60px;
+                    }
+                    
+                    h1 {
+                        font-size: 2.5rem;
+                    }
+                    
+                    h2 {
+                        font-size: 1.8rem;
+                    }
+                    
+                    footer {
+                        padding: 3rem 1.5rem;
+                        margin-top: 5rem;
+                    }
+                    
+                    footer .footer-links {
+                        flex-direction: column;
+                        gap: 1rem;
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    nav {
+                        padding: 0.875rem 1rem;
+                    }
+                    
+                    nav.scrolled {
+                        padding: 0.625rem 1rem;
+                    }
+                    
+                    .container {
+                        padding: 2rem 1rem;
+                    }
+                    
+                    h1 {
+                        font-size: 2rem;
+                    }
+                    
+                    h2 {
+                        font-size: 1.5rem;
+                    }
+                    
+                    body {
+                        padding-top: 50px;
+                    }
+                }
+            </style>
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+
+        {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
+        {% if frankenphpHotReload %}
+        <meta name="frankenphp-hot-reload:url" content="{{ frankenphpHotReload }}">
+        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
+        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
+        {% endif %}
+    </head>
+    <body>
+        <nav>
+            <button class="burger-menu" aria-label="Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="{{ path('app_home') }}" {% if app.request.attributes.get('_route') == 'app_home' %}class="active"{% endif %}>Accueil</a></li>
+                <li><a href="{{ path('app_presentation') }}" {% if app.request.attributes.get('_route') == 'app_presentation' %}class="active"{% endif %}>Présentation</a></li>
+                <li><a href="{{ path('app_realisations') }}" {% if app.request.attributes.get('_route') == 'app_realisations' %}class="active"{% endif %}>Réalisations</a></li>
+                <li><a href="{{ path('app_contact') }}" {% if app.request.attributes.get('_route') == 'app_contact' %}class="active"{% endif %}>Contact</a></li>
+                <li><a href="{{ path('app_medias') }}" {% if app.request.attributes.get('_route') == 'app_medias' %}class="active"{% endif %}>Médias</a></li>
+            </ul>
+        </nav>
+        
+        {% block body %}{% endblock %}
+        
+        <footer>
+            <p>&copy; {{ "now"|date("Y") }} Maud - Artiste Muraliste. Tous droits réservés.</p>
+            <div class="footer-links">
+                <a href="{{ path('app_legal') }}">Mentions Légales</a>
+                <a href="{{ path('app_privacy') }}">Politique de Confidentialité</a>
+            </div>
+        </footer>
+        
+        <script>
+            // Effet de scroll sur le header
+            let lastScroll = 0;
+            const nav = document.querySelector('nav');
+            
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+                
+                lastScroll = currentScroll;
+            });
+            
+            // Menu burger toggle
+            const burgerMenu = document.querySelector('.burger-menu');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            
+            // Toggle menu
+            burgerMenu.addEventListener('click', () => {
+                burgerMenu.classList.toggle('active');
+                navMenu.classList.toggle('active');
+                burgerMenu.setAttribute('aria-expanded', 
+                    burgerMenu.classList.contains('active') ? 'true' : 'false'
+                );
+                
+                // Empêcher le scroll quand le menu est ouvert
+                if (navMenu.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Fermer le menu quand on clique sur un lien
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    burgerMenu.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    burgerMenu.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                });
+            });
+            
+            // Fermer le menu avec la touche Échap
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                    burgerMenu.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    burgerMenu.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                }
+            });
+        </script>
+    </body>
+</html>

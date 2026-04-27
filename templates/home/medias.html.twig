@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Médias - Maud Artiste Muraliste{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        .media-intro {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+        
+        .media-intro h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .media-intro p {
+            font-family: 'Inter', sans-serif;
+            color: #888;
+            font-size: 1.1rem;
+            letter-spacing: 0.02em;
+            font-weight: 300;
+        }
+        
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+            gap: 5rem;
+        }
+        
+        .media-item {
+            background: transparent;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .media-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .media-item img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: grayscale(5%);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .media-item:hover img {
+            transform: scale(1.03);
+        }
+        
+        .media-item iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .media-content {
+            padding: 2rem 0;
+        }
+        
+        .media-content h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0;
+            color: #0a0a0a;
+        }
+        
+        .media-content p {
+            font-family: 'Inter', sans-serif;
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+        
+        .no-media {
+            text-align: center;
+            padding: 10rem 2rem;
+            color: #ccc;
+            font-weight: 300;
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+        }
+        
+        @media (max-width: 768px) {
+            .media-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .media-item img,
+            .media-item iframe {
+                height: 350px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="media-intro">
+        <h1>Médias</h1>
+        <p>Découvrez mes créations en images et vidéos</p>
+    </div>
+    
+    {% if medias is not empty %}
+        <div class="media-grid">
+            {% for media in medias %}
+                <div class="media-item">
+                    {% if media.type == 'image' %}
+                        <img src="/uploads/gallery/{{ media.filename }}" 
+                             alt="{{ media.title ?? 'Média' }}">
+                    {% elseif media.type == 'video' %}
+                        <iframe src="{{ media.youtubeEmbedUrl }}" 
+                                allowfullscreen
+                                title="{{ media.title ?? 'Vidéo' }}"></iframe>
+                    {% endif %}
+                    
+                    {% if media.title or media.description %}
+                        <div class="media-content">
+                            {% if media.title %}
+                                <h3>{{ media.title }}</h3>
+                            {% endif %}
+                            {% if media.description %}
+                                <p>{{ media.description }}</p>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-media">
+            Aucun média disponible pour le moment. Revenez bientôt !
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

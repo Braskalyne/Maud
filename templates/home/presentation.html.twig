@@ -1,0 +1,292 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Présentation - Maud Artiste Muraliste{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        .presentation-hero {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+        
+        .presentation-hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0a0a0a 0%, #c9a961 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .presentation-hero .subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            color: #888;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+        
+        .presentation-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 5rem;
+            align-items: start;
+            max-width: 1400px;
+            margin: 0 auto 6rem;
+        }
+        
+        .presentation-content {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: #0a0a0a;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 40px;
+            background: linear-gradient(180deg, #c9a961, transparent);
+            border-radius: 2px;
+        }
+        
+        .presentation-content p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #4a4a4a;
+            margin-bottom: 1.8rem;
+            font-weight: 400;
+        }
+        
+        .highlight-text {
+            background: linear-gradient(120deg, rgba(201, 169, 97, 0.1) 0%, rgba(201, 169, 97, 0.05) 100%);
+            padding: 0.2rem 0.1rem;
+            border-radius: 4px;
+            color: #0a0a0a;
+            font-weight: 500;
+        }
+        
+        .presentation-image-wrapper {
+            position: relative;
+        }
+        
+        .presentation-image {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 
+                0 10px 40px rgba(0,0,0,0.1),
+                0 0 0 1px rgba(0,0,0,0.05);
+        }
+        
+        .presentation-image img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .presentation-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        .image-badge {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            color: #c9a961;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        .skill-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(249,249,249,0.9) 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(201, 169, 97, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(201, 169, 97, 0.15);
+            border-color: rgba(201, 169, 97, 0.3);
+        }
+        
+        .skill-icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .skill-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0a0a0a;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-card p {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin: 5rem auto;
+            padding: 3rem;
+            background: linear-gradient(135deg, #f8f8f8 0%, #ececec 100%);
+            border-radius: 20px;
+            max-width: 800px;
+        }
+        
+        .cta-section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-section p {
+            font-family: 'Inter', sans-serif;
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, #c9a961 0%, #b89654 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(201, 169, 97, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(201, 169, 97, 0.4);
+        }
+        
+        @media (max-width: 968px) {
+            .presentation-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+            
+            .presentation-hero h1 {
+                font-size: 3rem;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .presentation-image img {
+                height: 450px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="presentation-hero">
+        <h1>À propos de moi</h1>
+        <p class="subtitle">Artiste muraliste passionnée</p>
+    </div>
+    
+    <div class="presentation-grid">
+        <div class="presentation-content">
+            <div class="section-title">Mon univers</div>
+            <p>
+                Passionnée par l'<span class="highlight-text">art mural</span> depuis toujours, je transforme les espaces en œuvres d'art uniques qui racontent des histoires et créent des émotions.
+            </p>
+            <p>
+                Avec une expertise en <span class="highlight-text">trompe-l'œil</span>, peinture décorative et fresques murales, je mets mon talent au service de projets variés : particuliers, entreprises, espaces publics et événements.
+            </p>
+            <p>
+                Chaque projet est une nouvelle <span class="highlight-text">aventure créative</span> où je m'efforce de comprendre vos envies et de les transformer en réalité artistique.
+            </p>
+            
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">🎨</div>
+                    <h3>Trompe-l'œil</h3>
+                    <p>Créations murales en 3D pour donner vie à vos murs</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">✨</div>
+                    <h3>Peinture décorative</h3>
+                    <p>Fresques et motifs sur-mesure pour embellir vos espaces</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">🏢</div>
+                    <h3>Projets professionnels</h3>
+                    <p>Entreprises, commerces et espaces publics</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">🎉</div>
+                    <h3>Événements</h3>
+                    <p>Animations live et créations éphémères</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="presentation-image-wrapper">
+            <div class="presentation-image">
+                <img src="/images/maud.webp" alt="Maud, artiste muraliste">
+            </div>
+            <div class="image-badge">Artiste Muraliste</div>
+        </div>
+    </div>
+    
+    <div class="cta-section">
+        <h3>Vous avez un projet en tête ?</h3>
+        <p>N'hésitez pas à me contacter pour discuter de vos idées et donner vie à vos projets artistiques.</p>
+        <a href="{{ path('app_contact') }}" class="cta-button">Parlons de votre projet</a>
+    </div>
+</div>
+{% endblock %}

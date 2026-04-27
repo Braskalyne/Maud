@@ -1,0 +1,49 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Nouvelle galerie{% endblock %}
+{% block page_title %}Nouvelle galerie{% endblock %}
+
+{% block body %}
+<div class="content-box">
+    <h1>Créer une nouvelle galerie</h1>
+    
+    <form method="post">
+        <div class="form-group">
+            <label for="title">Titre *</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="category">Catégorie *</label>
+            <select id="category" name="category" required>
+                <option value="">-- Choisir --</option>
+                <option value="trompe-loeil">Trompe l'œil</option>
+                <option value="projets-creatifs">Projets créatifs</option>
+                <option value="univers-jeunesse">Univers jeunesse</option>
+                <option value="evenement">Événement</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="position">Position</label>
+            <input type="number" id="position" name="position" value="0">
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="published" value="1" checked> Publier
+            </label>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">Créer la galerie</button>
+            <a href="{{ path('admin_gallery_index') }}" class="btn">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

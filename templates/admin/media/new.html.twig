@@ -1,0 +1,131 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Nouveau média{% endblock %}
+{% block page_title %}Nouveau média{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .media-type-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .media-type-option {
+            padding: 2rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .media-type-option:hover {
+            border-color: #3498db;
+        }
+        
+        .media-type-option.selected {
+            border-color: #3498db;
+            background: #e8f4fd;
+        }
+        
+        .media-fields {
+            display: none;
+        }
+        
+        .media-fields.active {
+            display: block;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="content-box">
+    <h1>Ajouter un nouveau média</h1>
+    
+    <form method="post" enctype="multipart/form-data">
+        <div class="media-type-selector">
+            <div class="media-type-option" onclick="selectMediaType('image')">
+                <h3>📷 Image</h3>
+                <p>Télécharger une photo</p>
+            </div>
+            <div class="media-type-option" onclick="selectMediaType('video')">
+                <h3>🎬 Vidéo</h3>
+                <p>Lien YouTube</p>
+            </div>
+        </div>
+        
+        <input type="hidden" id="type" name="type" required>
+        
+        <div id="image-fields" class="media-fields">
+            <div class="form-group">
+                <label for="image">Image *</label>
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
+        </div>
+        
+        <div id="video-fields" class="media-fields">
+            <div class="form-group">
+                <label for="youtube_url">URL YouTube *</label>
+                <input type="url" id="youtube_url" name="youtube_url" placeholder="https://www.youtube.com/watch?v=...">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="title">Titre</label>
+            <input type="text" id="title" name="title">
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="position">Position</label>
+            <input type="number" id="position" name="position" value="0">
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="published" value="1" checked> Publier
+            </label>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">Ajouter le média</button>
+            <a href="{{ path('admin_media_index') }}" class="btn">Annuler</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    function selectMediaType(type) {
+        // Update hidden field
+        document.getElementById('type').value = type;
+        
+        // Update visual selection
+        document.querySelectorAll('.media-type-option').forEach(el => {
+            el.classList.remove('selected');
+        });
+        event.currentTarget.classList.add('selected');
+        
+        // Show/hide appropriate fields
+        document.querySelectorAll('.media-fields').forEach(el => {
+            el.classList.remove('active');
+        });
+        document.getElementById(type + '-fields').classList.add('active');
+        
+        // Update required fields
+        if (type === 'image') {
+            document.getElementById('image').required = true;
+            document.getElementById('youtube_url').required = false;
+        } else {
+            document.getElementById('image').required = false;
+            document.getElementById('youtube_url').required = true;
+        }
+    }
+</script>
+{% endblock %}

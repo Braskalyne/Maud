@@ -1,0 +1,99 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modifier {{ gallery.title }}{% endblock %}
+{% block page_title %}Modifier la galerie{% endblock %}
+
+{% block body %}
+<div class="content-box">
+    <h1>Modifier : {{ gallery.title }}</h1>
+    
+    <form method="post">
+        <input type="hidden" name="action" value="update_info">
+        
+        <div class="form-group">
+            <label for="title">Titre *</label>
+            <input type="text" id="title" name="title" value="{{ gallery.title }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="category">Catégorie *</label>
+            <select id="category" name="category" required>
+                <option value="trompe-loeil" {% if gallery.category == 'trompe-loeil' %}selected{% endif %}>Trompe l'œil</option>
+                <option value="projets-creatifs" {% if gallery.category == 'projets-creatifs' %}selected{% endif %}>Projets créatifs</option>
+                <option value="univers-jeunesse" {% if gallery.category == 'univers-jeunesse' %}selected{% endif %}>Univers jeunesse</option>
+                <option value="evenement" {% if gallery.category == 'evenement' %}selected{% endif %}>Événement</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description">{{ gallery.description }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="position">Position</label>
+            <input type="number" id="position" name="position" value="{{ gallery.position }}">
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="published" value="1" {% if gallery.isPublished %}checked{% endif %}> Publier
+            </label>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+            <a href="{{ path('admin_gallery_index') }}" class="btn">Retour</a>
+        </div>
+    </form>
+    
+    <hr style="margin: 3rem 0;">
+    
+    <h2>Images de la galerie</h2>
+    
+    <form method="post" enctype="multipart/form-data" style="margin-bottom: 2rem;">
+        <input type="hidden" name="action" value="add_images">
+        <div class="form-group">
+            <label for="images">Ajouter des images</label>
+            <input type="file" id="images" name="images[]" multiple accept="image/*">
+        </div>
+        <button type="submit" class="btn btn-success">Ajouter les images</button>
+    </form>
+    
+    {% if gallery.images is not empty %}
+        <form method="post" style="margin-top: 1rem;" id="form-update-images">
+            <input type="hidden" name="action" value="update_images">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                {% for image in gallery.images %}
+                    <div style="border: 1px solid #ddd; border-radius: 5px; overflow: hidden;">
+                        <img src="/uploads/gallery/{{ image.filename }}" style="width: 100%; height: 150px; object-fit: cover;" alt="{{ image.caption }}">
+                        <div style="padding: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                            <label style="font-size: 0.8rem; color: #666;">Position</label>
+                            <input type="number" name="positions[{{ image.id }}]" value="{{ image.position }}"
+                                   style="width: 100%; padding: 0.3rem 0.5rem; border: 1px solid #ccc; border-radius: 3px; font-size: 0.9rem;">
+                            <label style="font-size: 0.8rem; color: #666;">Légende</label>
+                            <input type="text" name="captions[{{ image.id }}]" value="{{ image.caption ?? '' }}" placeholder="Légende…"
+                                   style="width: 100%; padding: 0.3rem 0.5rem; border: 1px solid #ccc; border-radius: 3px; font-size: 0.9rem;">
+                            <button type="submit"
+                                    form="delete-image-{{ image.id }}"
+                                    class="btn btn-danger"
+                                    style="width: 100%; padding: 0.4rem; font-size: 0.8rem;"
+                                    onclick="return confirm('Supprimer cette image ?');">Supprimer</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-success">Enregistrer les positions / légendes</button>
+        </form>
+
+        {# Formulaires de suppression hors du formulaire principal pour éviter l'imbrication #}
+        {% for image in gallery.images %}
+            <form id="delete-image-{{ image.id }}" method="post"
+                  action="{{ path('admin_gallery_image_delete', {id: image.id}) }}"
+                  style="display:none;"></form>
+        {% endfor %}
+    {% else %}
+        <p style="text-align: center; color: #999; padding: 2rem;">Aucune image dans cette galerie.</p>
+    {% endif %}
+</div>
+{% endblock %}

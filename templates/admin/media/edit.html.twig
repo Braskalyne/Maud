@@ -1,0 +1,55 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modifier {{ media.title }}{% endblock %}
+{% block page_title %}Modifier le média{% endblock %}
+
+{% block body %}
+<div class="content-box">
+    <h1>Modifier : {{ media.title ?? 'Média' }}</h1>
+    
+    <div style="margin-bottom: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 5px;">
+        <strong>Type :</strong> {{ media.type == 'image' ? '📷 Image' : '🎬 Vidéo' }}
+    </div>
+    
+    {% if media.type == 'image' and media.filename %}
+        <div style="margin-bottom: 2rem;">
+            <img src="/uploads/gallery/{{ media.filename }}" style="max-width: 400px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" alt="{{ media.title }}">
+        </div>
+    {% endif %}
+    
+    <form method="post">
+        {% if media.type == 'video' %}
+            <div class="form-group">
+                <label for="youtube_url">URL YouTube *</label>
+                <input type="url" id="youtube_url" name="youtube_url" value="{{ media.youtubeUrl }}" required>
+            </div>
+        {% endif %}
+        
+        <div class="form-group">
+            <label for="title">Titre</label>
+            <input type="text" id="title" name="title" value="{{ media.title }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description">{{ media.description }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="position">Position</label>
+            <input type="number" id="position" name="position" value="{{ media.position }}">
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="published" value="1" {% if media.isPublished %}checked{% endif %}> Publier
+            </label>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+            <a href="{{ path('admin_media_index') }}" class="btn">Retour</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

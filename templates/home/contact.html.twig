@@ -1,0 +1,334 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact - Maud Artiste Muraliste{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        .contact-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .contact-intro {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .contact-intro h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .contact-intro p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: #888;
+            letter-spacing: 0.02em;
+            font-weight: 300;
+        }
+        
+        .contact-form {
+            background: transparent;
+            padding: 0;
+        }
+        
+        .contact-container {
+            background: transparent;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 0;
+        }
+        
+        .form-group.full-width {
+            grid-column: 1 / -1;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            color: #0a0a0a;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.7);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: #0a0a0a;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #c9a961;
+            background: white;
+            box-shadow: 0 5px 20px rgba(201, 169, 97, 0.15);
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+            margin-top: 0.3rem;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-bottom-color: var(--accent-color);
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #888;
+            opacity: 0.6;
+        }
+        
+        .form-group .form-errors,
+        .form-group .invalid-feedback {
+            display: block;
+            color: #dc3545;
+            font-size: 0.75rem;
+            margin-top: 0.4rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .form-group input.is-invalid,
+        .form-group textarea.is-invalid {
+            border-bottom-color: #dc3545;
+        }
+        
+        .submit-button {
+            background: linear-gradient(135deg, #c9a961 0%, #b89654 100%);
+            color: white;
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(201, 169, 97, 0.3);
+        }
+        
+        .submit-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .submit-button:hover::before {
+            left: 100%;
+        }
+        
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(201, 169, 97, 0.4);
+        }
+        
+        .flash-messages {
+            max-width: 900px;
+            margin: 0 auto 2rem;
+        }
+        
+        .flash {
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .flash.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .flash.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .form-errors {
+            color: #dc3545;
+            font-size: 0.75rem;
+            margin-top: 0.3rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .rgpd-consent {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: #f8f8f8;
+            border-radius: 4px;
+            border-left: 3px solid #c9a961;
+        }
+        
+        .rgpd-consent label {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: #5a5a5a;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+        
+        .rgpd-consent input[type="checkbox"] {
+            margin-top: 0.2rem;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        
+        .rgpd-consent a {
+            color: #c9a961;
+            text-decoration: underline;
+        }
+        
+        .rgpd-consent a:hover {
+            color: #b89654;
+        }
+        
+        .contact-info {
+            margin-top: 3rem;
+            text-align: center;
+            padding: 2.5rem 0;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .contact-info h3 {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+        }
+        
+        .contact-info p {
+            margin-bottom: 0.6rem;
+            color: #888;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="contact-container">
+        <div class="contact-intro">
+            <h1>Contactez-moi</h1>
+            <p>Vous avez un projet en tête ? N'hésitez pas à me contacter pour en discuter !</p>
+        </div>
+        
+        {% for message in app.flashes('success') %}
+            <div class="flash-messages">
+                <div class="flash success">{{ message }}</div>
+            </div>
+        {% endfor %}
+        
+        {% for message in app.flashes('error') %}
+            <div class="flash-messages">
+                <div class="flash error">{{ message }}</div>
+            </div>
+        {% endfor %}
+        
+        {{ form_start(contactForm, {'attr': {'class': 'contact-form'}}) }}
+            <div class="form-row">
+                <div class="form-group">
+                    {{ form_label(contactForm.name) }}
+                    {{ form_widget(contactForm.name) }}
+                    {{ form_errors(contactForm.name) }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form_label(contactForm.email) }}
+                    {{ form_widget(contactForm.email) }}
+                    {{ form_errors(contactForm.email) }}
+                </div>
+            </div>
+            
+            <div class="form-group full-width">
+                {{ form_label(contactForm.subject) }}
+                {{ form_widget(contactForm.subject) }}
+                {{ form_errors(contactForm.subject) }}
+            </div>
+            
+            <div class="form-group full-width">
+                {{ form_label(contactForm.message) }}
+                {{ form_widget(contactForm.message) }}
+                {{ form_errors(contactForm.message) }}
+            </div>
+            
+            <div class="form-group full-width rgpd-consent">
+                {{ form_widget(contactForm.rgpdConsent) }}
+                {{ form_label(contactForm.rgpdConsent, null, {
+                    'label_html': true,
+                    'label': 'J\'accepte que mes données personnelles soient utilisées pour répondre à ma demande. <a href="' ~ path('app_privacy') ~ '" target="_blank">Voir la politique de confidentialité</a>'
+                }) }}
+                {{ form_errors(contactForm.rgpdConsent) }}
+            </div>
+            
+            <button type="submit" class="submit-button">Envoyer le message</button>
+        {{ form_end(contactForm) }}
+        
+        <div class="contact-info">
+            <h3>Autres moyens de contact</h3>
+            <p>📧 Email : contact@maud-muraliste.fr</p>
+            <p>📱 Téléphone : 06 XX XX XX XX</p>
+            <p>📍 Localisation : [Votre ville]</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
