@@ -6,48 +6,62 @@
 {% block body %}
 <div class="content-box">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h1>Galeries</h1>
+        <h1>Galeries par catégorie</h1>
         <a href="{{ path('admin_gallery_new') }}" class="btn btn-success">+ Nouvelle galerie</a>
     </div>
     
-    {% if galleries is empty %}
-        <p style="text-align: center; color: #999; padding: 3rem;">Aucune galerie pour le moment.</p>
-    {% else %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Titre</th>
-                    <th>Catégorie</th>
-                    <th>Images</th>
-                    <th>Position</th>
-                    <th>Statut</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for gallery in galleries %}
-                    <tr>
-                        <td><strong>{{ gallery.title }}</strong></td>
-                        <td>{{ gallery.category }}</td>
-                        <td>{{ gallery.images|length }} image(s)</td>
-                        <td>{{ gallery.position }}</td>
-                        <td>
-                            {% if gallery.isPublished %}
-                                <span style="color: #27ae60;">✓ Publié</span>
-                            {% else %}
-                                <span style="color: #e74c3c;">✗ Brouillon</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            <a href="{{ path('admin_gallery_edit', {id: gallery.id}) }}" class="btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Modifier</a>
-                            <form method="post" action="{{ path('admin_gallery_delete', {id: gallery.id}) }}" style="display: inline;" onsubmit="return confirm('Supprimer cette galerie ?');">
-                                <button type="submit" class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Supprimer</button>
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
+    {% for categorySlug, categoryName in categories %}
+        <div style="margin-bottom: 3rem;">
+            <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid #c9a961; color: #0a0a0a;">
+                {{ categoryName }}
+            </h2>
+            
+            {% set galleries = galleriesByCategory[categorySlug] %}
+            
+            {% if galleries is empty %}
+                <p style="color: #999; padding: 1.5rem; background: #f8f8f8; border-radius: 8px; text-align: center;">
+                    Aucune galerie dans cette catégorie.
+                </p>
+            {% else %}
+                <table style="margin-bottom: 0;">
+                    <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Images</th>
+                            <th>Position</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for gallery in galleries %}
+                            <tr>
+                                <td><strong>{{ gallery.title }}</strong></td>
+                                <td>{{ gallery.images|length }} image(s)</td>
+                                <td>
+                                    <span style="background: #c9a961; color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-weight: 600;">
+                                        {{ gallery.position }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if gallery.isPublished %}
+                                        <span style="color: #27ae60;">✓ Publié</span>
+                                    {% else %}
+                                        <span style="color: #e74c3c;">✗ Brouillon</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ path('admin_gallery_edit', {id: gallery.id}) }}" class="btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Modifier</a>
+                                    <form method="post" action="{{ path('admin_gallery_delete', {id: gallery.id}) }}" style="display: inline;" onsubmit="return confirm('Supprimer cette galerie ?');">
+                                        <button type="submit" class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Supprimer</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}

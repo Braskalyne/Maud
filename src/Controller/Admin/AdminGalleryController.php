@@ -18,10 +18,24 @@ class AdminGalleryController extends AbstractController
     #[Route('/', name: 'admin_gallery_index')]
     public function index(GalleryRepository $galleryRepository): Response
     {
-        $galleries = $galleryRepository->findBy([], ['category' => 'ASC', 'position' => 'ASC']);
+        $categories = [
+            'trompe-loeil' => 'Trompe l\'œil',
+            'projets-creatifs' => 'Projets créatifs',
+            'univers-jeunesse' => 'Univers jeunesse',
+            'evenement' => 'Événement'
+        ];
+        
+        $galleriesByCategory = [];
+        foreach (array_keys($categories) as $category) {
+            $galleriesByCategory[$category] = $galleryRepository->findBy(
+                ['category' => $category],
+                ['position' => 'ASC']
+            );
+        }
         
         return $this->render('admin/gallery/index.html.twig', [
-            'galleries' => $galleries,
+            'categories' => $categories,
+            'galleriesByCategory' => $galleriesByCategory,
         ]);
     }
 
