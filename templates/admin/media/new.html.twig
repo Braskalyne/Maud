@@ -14,12 +14,23 @@
         }
         
         .media-type-option {
+            position: relative;
             padding: 2rem;
             border: 2px solid #ddd;
             border-radius: 10px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
+        }
+        
+        .media-type-option input[type="radio"] {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            width: 20px;
+            height: 20px;
+            opacity: 1;
+            cursor: pointer;
         }
         
         .media-type-option:hover {
@@ -45,19 +56,23 @@
 <div class="content-box">
     <h1>Ajouter un nouveau média</h1>
     
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" id="mediaForm" data-turbo="false">
         <div class="media-type-selector">
-            <div class="media-type-option" onclick="selectMediaType('image')">
-                <h3>📷 Image</h3>
-                <p>Télécharger une photo</p>
+            <div class="media-type-option" onclick="selectMediaTypeClick('image')">
+                <input type="radio" name="type" value="image" id="type_image" required>
+                <label for="type_image" style="cursor: pointer; display: block; margin: 0;">
+                    <h3>📷 Image</h3>
+                    <p>Télécharger une photo</p>
+                </label>
             </div>
-            <div class="media-type-option" onclick="selectMediaType('video')">
-                <h3>🎬 Vidéo</h3>
-                <p>Lien YouTube</p>
+            <div class="media-type-option" onclick="selectMediaTypeClick('video')">
+                <input type="radio" name="type" value="video" id="type_video" required>
+                <label for="type_video" style="cursor: pointer; display: block; margin: 0;">
+                    <h3>🎬 Vidéo</h3>
+                    <p>Lien YouTube</p>
+                </label>
             </div>
         </div>
-        
-        <input type="hidden" id="type" name="type" required>
         
         <div id="image-fields" class="media-fields">
             <div class="form-group">
@@ -102,15 +117,22 @@
 </div>
 
 <script>
-    function selectMediaType(type) {
-        // Update hidden field
-        document.getElementById('type').value = type;
+    function selectMediaTypeClick(type) {
+        // Explicitly check the radio button
+        const radio = document.getElementById('type_' + type);
+        if (radio) {
+            radio.checked = true;
+        }
         
         // Update visual selection
         document.querySelectorAll('.media-type-option').forEach(el => {
             el.classList.remove('selected');
         });
-        event.currentTarget.classList.add('selected');
+        
+        const selectedInput = document.querySelector(`input[name="type"][value="${type}"]`);
+        if (selectedInput) {
+            selectedInput.closest('.media-type-option').classList.add('selected');
+        }
         
         // Show/hide appropriate fields
         document.querySelectorAll('.media-fields').forEach(el => {
@@ -120,12 +142,28 @@
         
         // Update required fields
         if (type === 'image') {
-            document.getElementById('image').required = true;
-            document.getElementById('youtube_url').required = false;
+            const imageInput = document.getElementById('image');
+            const youtubeInput = document.getElementById('youtube_url');
+            if (imageInput) imageInput.required = true;
+            if (youtubeInput) youtubeInput.required = false;
         } else {
-            document.getElementById('image').required = false;
-            document.getElementById('youtube_url').required = true;
+            const imageInput = document.getElementById('image');
+            const youtubeInput = document.getElementById('youtube_url');
+            if (imageInput) imageInput.required = false;
+            if (youtubeInput) youtubeInput.required = true;
         }
     }
+    
+    // Debug: log form data before submit
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('mediaForm');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                const formData = new FormData(form);
+                console.log('Form data:', Object.fromEntries(formData));
+                console.log('Type value:', formData.get('type'));
+            });
+        }
+    });
 </script>
 {% endblock %}

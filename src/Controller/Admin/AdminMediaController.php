@@ -28,8 +28,15 @@ class AdminMediaController extends AbstractController
     public function new(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
         if ($request->isMethod('POST')) {
+            $type = $request->request->get('type');
+            
+            if (!$type) {
+                $this->addFlash('error', 'Veuillez sélectionner un type de média (image ou vidéo).');
+                return $this->render('admin/media/new.html.twig');
+            }
+            
             $media = new Media();
-            $media->setType($request->request->get('type'));
+            $media->setType($type);
             $media->setTitle($request->request->get('title'));
             $media->setDescription($request->request->get('description'));
             $media->setPosition((int) $request->request->get('position', 0));
