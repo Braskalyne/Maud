@@ -369,62 +369,84 @@
         </footer>
         
         <script>
-            // Effet de scroll sur le header
-            let lastScroll = 0;
-            const nav = document.querySelector('nav');
-            
-            window.addEventListener('scroll', () => {
-                const currentScroll = window.pageYOffset;
+            function initNavigation() {
+                // Effet de scroll sur le header
+                const nav = document.querySelector('nav');
+                if (!nav) return;
                 
-                if (currentScroll > 50) {
-                    nav.classList.add('scrolled');
-                } else {
-                    nav.classList.remove('scrolled');
-                }
+                // Supprimer l'ancien écouteur de scroll s'il existe
+                window.removeEventListener('scroll', window.navScrollHandler);
                 
-                lastScroll = currentScroll;
-            });
-            
-            // Menu burger toggle
-            const burgerMenu = document.querySelector('.burger-menu');
-            const navMenu = document.querySelector('.nav-menu');
-            const navLinks = document.querySelectorAll('.nav-menu a');
-            
-            // Toggle menu
-            burgerMenu.addEventListener('click', () => {
-                burgerMenu.classList.toggle('active');
-                navMenu.classList.toggle('active');
-                burgerMenu.setAttribute('aria-expanded', 
-                    burgerMenu.classList.contains('active') ? 'true' : 'false'
-                );
+                window.navScrollHandler = () => {
+                    const currentScroll = window.pageYOffset;
+                    
+                    if (currentScroll > 50) {
+                        nav.classList.add('scrolled');
+                    } else {
+                        nav.classList.remove('scrolled');
+                    }
+                };
                 
-                // Empêcher le scroll quand le menu est ouvert
-                if (navMenu.classList.contains('active')) {
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    document.body.style.overflow = '';
-                }
-            });
-            
-            // Fermer le menu quand on clique sur un lien
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    burgerMenu.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    burgerMenu.setAttribute('aria-expanded', 'false');
-                    document.body.style.overflow = '';
+                window.addEventListener('scroll', window.navScrollHandler);
+                
+                // Menu burger toggle
+                const burgerMenu = document.querySelector('.burger-menu');
+                const navMenu = document.querySelector('.nav-menu');
+                const navLinks = document.querySelectorAll('.nav-menu a');
+                
+                if (!burgerMenu || !navMenu) return;
+                
+                // Supprimer les anciens event listeners en clonant les éléments
+                const newBurgerMenu = burgerMenu.cloneNode(true);
+                burgerMenu.parentNode.replaceChild(newBurgerMenu, burgerMenu);
+                
+                // Réattacher l'event listener au nouveau bouton
+                newBurgerMenu.addEventListener('click', () => {
+                    newBurgerMenu.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                    newBurgerMenu.setAttribute('aria-expanded', 
+                        newBurgerMenu.classList.contains('active') ? 'true' : 'false'
+                    );
+                    
+                    // Empêcher le scroll quand le menu est ouvert
+                    if (navMenu.classList.contains('active')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
                 });
-            });
+                
+                // Fermer le menu quand on clique sur un lien
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        newBurgerMenu.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        newBurgerMenu.setAttribute('aria-expanded', 'false');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
             
-            // Fermer le menu avec la touche Échap
+            // Fermer le menu avec la touche Échap (listener global)
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-                    burgerMenu.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    burgerMenu.setAttribute('aria-expanded', 'false');
-                    document.body.style.overflow = '';
+                if (e.key === 'Escape') {
+                    const burgerMenu = document.querySelector('.burger-menu');
+                    const navMenu = document.querySelector('.nav-menu');
+                    if (burgerMenu && navMenu && navMenu.classList.contains('active')) {
+                        burgerMenu.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        burgerMenu.setAttribute('aria-expanded', 'false');
+                        document.body.style.overflow = '';
+                    }
                 }
             });
+            
+            // Initialiser au chargement de la page
+            document.addEventListener('DOMContentLoaded', initNavigation);
+            
+            // Réinitialiser après chaque navigation Turbo
+            document.addEventListener('turbo:load', initNavigation);
+            document.addEventListener('turbo:render', initNavigation);
         </script>
     </body>
 </html>
