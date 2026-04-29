@@ -1,6 +1,6 @@
-# Maud - Artiste Muraliste
+# 4fam - Artistes Muralistes
 
-Portfolio website for a professional mural artist, showcasing artistic creations, galleries, and project inquiries.
+Portfolio website for a duo of professional mural artists, showcasing artistic creations, galleries, and project inquiries.
 
 ## 🎨 Features
 
@@ -44,7 +44,7 @@ Portfolio website for a professional mural artist, showcasing artistic creations
 
 ```bash
 git clone https://github.com/Braskalyne/Maud.git
-cd Maud
+cd maud
 ```
 
 ### 2. Install dependencies
@@ -171,12 +171,12 @@ php bin/phpunit
 
 ## 📝 License
 
-All rights reserved © 2026 Maud - Artiste Muraliste
+All rights reserved © 2026 4fam - Artistes Muralistes
 
-## 👤 Author
+## 👤 Authors
 
-**Maud**
-- Professional Mural Artist
+**4fam**
+- Duo of Professional Mural Artists
 - Specializing in Trompe-l'œil and decorative painting
 
 ## 🤝 Contributing
