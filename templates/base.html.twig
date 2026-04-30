@@ -4,6 +4,31 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}4fam - Artistes Muralistes{% endblock %}</title>
+        
+        {# SEO Meta Tags #}
+        <meta name="description" content="{% block meta_description %}Collectif 4fam : deux artistes muralistes talentueux créant des fresques murales, trompe-l'œil et peintures uniques à Paris et Lyon. Découvrez nos réalisations artistiques.{% endblock %}">
+        <meta name="keywords" content="{% block meta_keywords %}artiste muraliste, peinture murale, peintre, trompe l'oeil, fresque, événement artistique, Paris, Lyon, art mural{% endblock %}">
+        <meta name="author" content="Collectif 4fam">
+        <meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}">
+        <link rel="canonical" href="{% block canonical_url %}https://www.4fam.fr{{ app.request.pathinfo }}{% endblock %}">
+        
+        {# Open Graph / Facebook #}
+        <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+        <meta property="og:url" content="https://www.4fam.fr{{ app.request.pathinfo }}">
+        <meta property="og:title" content="{% block og_title %}{% block title %}4fam - Artistes Muralistes{% endblock %}{% endblock %}">
+        <meta property="og:description" content="{% block og_description %}{% block meta_description %}Collectif 4fam : deux artistes muralistes talentueux créant des fresques murales, trompe-l'œil et peintures uniques à Paris et Lyon. Découvrez nos réalisations artistiques.{% endblock %}{% endblock %}">
+        <meta property="og:image" content="{% block og_image %}https://www.4fam.fr/images/og-default.jpg{% endblock %}">
+        <meta property="og:locale" content="fr_FR">
+        <meta property="og:site_name" content="4fam - Collectif d'Artistes Muralistes">
+        
+        {# Twitter Card #}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:url" content="https://www.4fam.fr{{ app.request.pathinfo }}">
+        <meta name="twitter:title" content="{% block twitter_title %}{% block title %}4fam - Artistes Muralistes{% endblock %}{% endblock %}">
+        <meta name="twitter:description" content="{% block twitter_description %}{% block meta_description %}Collectif 4fam : deux artistes muralistes talentueux créant des fresques murales, trompe-l'œil et peintures uniques à Paris et Lyon. Découvrez nos réalisations artistiques.{% endblock %}{% endblock %}">
+        <meta name="twitter:image" content="{% block twitter_image %}https://www.4fam.fr/images/og-default.jpg{% endblock %}">
+        
+        {# Favicon #}
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🎨</text></svg>">
         {% block stylesheets %}
             <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -341,6 +366,48 @@
         <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
         <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
         {% endif %}
+        
+        {# Schema.org Structured Data #}
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "Collectif 4fam",
+            "description": "Artistes muralistes spécialisés dans la création de fresques murales, trompe-l'œil et peintures sur mesure",
+            "url": "https://www.4fam.fr",
+            "logo": "https://www.4fam.fr/images/logo.png",
+            "image": "https://www.4fam.fr/images/og-default.jpg",
+            "telephone": "",
+            "email": "",
+            "address": [
+                {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Paris",
+                    "addressCountry": "FR"
+                },
+                {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Lyon",
+                    "addressCountry": "FR"
+                }
+            ],
+            "areaServed": [
+                {
+                    "@type": "City",
+                    "name": "Paris"
+                },
+                {
+                    "@type": "City",
+                    "name": "Lyon"
+                }
+            ],
+            "sameAs": [
+                "https://www.facebook.com/collectif.4fam/",
+                "https://www.instagram.com/collectif_4fam/"
+            ],
+            "priceRange": "€€€"
+        }
+        </script>
     </head>
     <body>
         <nav>

@@ -1,0 +1,13 @@
+# Robots.txt pour 4fam - Artistes Muralistes
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /login
+Disallow: /logout
+Disallow: /uploads/
+
+# Sitemap
+Sitemap: https://www.4fam.fr/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 10

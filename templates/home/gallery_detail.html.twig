@@ -1,6 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ gallery.title }} - 4fam Artistes Muralistes{% endblock %}
+{% block title %}{{ gallery.title }} - Portfolio 4fam | Artistes Muralistes{% endblock %}
+
+{% block meta_description %}{{ gallery.description|default('Découvrez notre projet ' ~ gallery.title ~ ' - Collectif 4fam, artistes muralistes professionnels à Paris et Lyon.')|striptags|slice(0, 160) }}{% endblock %}
+
+{% block meta_keywords %}{{ gallery.title }}, fresque murale, artiste muraliste, réalisation artistique, 4fam{% endblock %}
+
+{% block og_type %}article{% endblock %}
+
+{% block og_title %}{{ gallery.title }} - Réalisation du Collectif 4fam{% endblock %}
+
+{% block og_description %}{{ gallery.description|default('Découvrez notre projet ' ~ gallery.title ~ ' - Collectif 4fam, artistes muralistes.')|striptags|slice(0, 160) }}{% endblock %}
+
+{% block og_image %}{% if gallery.images is not empty %}https://www.4fam.fr{{ gallery.images|first.imagePath }}{% else %}https://www.4fam.fr/images/og-default.jpg{% endif %}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
