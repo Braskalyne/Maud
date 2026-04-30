@@ -15,8 +15,8 @@
         {# Open Graph / Facebook #}
         <meta property="og:type" content="{% block og_type %}website{% endblock %}">
         <meta property="og:url" content="https://www.4fam.fr{{ app.request.pathinfo }}">
-        <meta property="og:title" content="{% block og_title %}{% block title %}4fam - Artistes Muralistes{% endblock %}{% endblock %}">
-        <meta property="og:description" content="{% block og_description %}{% block meta_description %}Collectif 4fam : deux artistes muralistes talentueux créant des fresques murales, trompe-l'œil et peintures uniques à Paris et Lyon. Découvrez nos réalisations artistiques.{% endblock %}{% endblock %}">
+        <meta property="og:title" content="{% block og_title %}{{ block('title') }}{% endblock %}">
+        <meta property="og:description" content="{% block og_description %}{{ block('meta_description') }}{% endblock %}">
         <meta property="og:image" content="{% block og_image %}https://www.4fam.fr/images/og-default.jpg{% endblock %}">
         <meta property="og:locale" content="fr_FR">
         <meta property="og:site_name" content="4fam - Collectif d'Artistes Muralistes">
@@ -24,8 +24,8 @@
         {# Twitter Card #}
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:url" content="https://www.4fam.fr{{ app.request.pathinfo }}">
-        <meta name="twitter:title" content="{% block twitter_title %}{% block title %}4fam - Artistes Muralistes{% endblock %}{% endblock %}">
-        <meta name="twitter:description" content="{% block twitter_description %}{% block meta_description %}Collectif 4fam : deux artistes muralistes talentueux créant des fresques murales, trompe-l'œil et peintures uniques à Paris et Lyon. Découvrez nos réalisations artistiques.{% endblock %}{% endblock %}">
+        <meta name="twitter:title" content="{% block twitter_title %}{{ block('title') }}{% endblock %}">
+        <meta name="twitter:description" content="{% block twitter_description %}{{ block('meta_description') }}{% endblock %}">
         <meta name="twitter:image" content="{% block twitter_image %}https://www.4fam.fr/images/og-default.jpg{% endblock %}">
         
         {# Favicon #}
